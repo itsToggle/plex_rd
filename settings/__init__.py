@@ -348,9 +348,9 @@ settings_list = [
         setting('Trakt library user', [''], content.services.trakt.library, 'user', hidden=True),
         setting('Trakt refresh user', [''], content.services.trakt.library.refresh, 'user', hidden=True),
         setting('Plex library refresh', [''], content.services.plex.library.refresh, 'sections', hidden=True,moveable=False),
-        setting('Plex library partial scan', 'Please enter "true" or "false": ', content.services.plex.library.refresh, 'partial', hidden=True, help="Specify wether or not plex_debrid should attempt to partially scan your plex libraries."),
+        setting('Plex library partial scan', 'Please enter "true" or "false": ', content.services.plex.library.refresh, 'partial', hidden=True, help="Specify whether or not plex_debrid should attempt to partially scan your plex libraries."),
         setting('Plex library refresh delay', 'Please enter a number (e.g 420 or 69.69): ', content.services.plex.library.refresh, 'delay', hidden=True, help="Specify the amount of seconds plex_debrid should wait between adding a torrent and scanning your plex libraries."),
-        setting('Plex server address', 'Please enter your Plex server address: ', content.services.plex.library, 'url', hidden=True),
+        setting('Plex server address', 'Please enter your Plex server address: ', content.services.plex.library, 'url', hidden=True, help="It must include protocol (eg. http) and not include anything trailing slashes. eg. http://my-plex-server:32400"),
         setting('Plex library check', [
             'Please specify a library section number that should be checked for existing content before download: '],
                 content.services.plex.library, 'check', hidden=True, entry="section",

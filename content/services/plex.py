@@ -791,8 +791,8 @@ class library(classes.library):
                     types = ['1'] if Directory.type == "movie" else  ['2', '3', '4']
                     sections += [[Directory.key,types]]
                     names += [Directory.title]
-        except:
-            ui_print("[plex error]: couldnt reach local plex server at: " + library.url + " to determine library sections. Make sure the address is correct, the server is running, and youve set up at least one library.")
+        except Exception as e:
+            ui_print("[plex error]: couldnt reach local plex server at: " + library.url + " to determine library sections. Make sure the address is correct, the server is running, and youve set up at least one library. Error:" + e)
         if len(sections) == 0:
             return list_
         if not silent:
@@ -876,11 +876,11 @@ class library(classes.library):
                             episode.grandparentEID = item.EID
             except:
                 ui_print('done')
-                ui_print("[plex error]: found incorrectly matched library item : " + item.title + " - this item needs a metadata refresh (open plex webui, find item, open item menu, refresh metadata).")  
+                ui_print("[plex error]: found incorrectly matched library item : " + item.title + " - this item needs a metadata refresh (open plex webui, find item, open item menu, refresh metadata).")
         ui_print('done')
         current_library = copy.deepcopy(list_)
         if first_load and updated:
-            store.save(current_library,"plex","metadata")       
+            store.save(current_library,"plex","metadata")
         return list_
 
 def search(query, library=[]):
