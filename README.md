@@ -381,11 +381,11 @@ If github is not your cup of tea;
 ></details>
 >
 ><details>
->  <summary><b><u><img src="https://app.plex.tv/desktop/favicon.ico" height="16"> Plex lables:</u></b></summary>
+>  <summary><b><u><img src="https://app.plex.tv/desktop/favicon.ico" height="16"> Plex labels:</u></b></summary>
 >  
->  - To add automatic version and user lables to your downloaded content, navigate to '/Settings/Library Service/Library update service/Edit/'
+>  - To add automatic version and user labels to your downloaded content, navigate to '/Settings/Library Service/Library update service/Edit/'
 >  - This requires a Plex library refresh to be set up aswell (see above).
->  - Lables that will be added are: "From: ..." for each user that watchlisted this item, "Version: ..." for each version that was downloaded.
+>  - Labels that will be added are: "From: ..." for each user that watchlisted this item, "Version: ..." for each version that was downloaded.
 >
 ></details>
 >
@@ -490,6 +490,15 @@ If github is not your cup of tea;
 >  - You can integrate the orionoid scrapers into plex_debrid by navigating to '/Settings/Scraper/Sources/Edit/Add source/orionoid'.
 >  - By default, only the top 5 links are fetched per scraping attempt and the links are sorted by "popularity", not the premium-only "best" attribute. This is done to be "free" account friendly, you can change these parameters in the orionoid source settings '/Settings/Scraper/Sources/Edit/Edit sources/orionoid'.
 >  - You can find a full list of all possible parameters and their respective values at "https://panel.orionoid.com/" in the "Developers" menu, section "API Docs" under "Stream API".
+>
+></details>
+>
+><details>
+>  <summary><b><u>zilean:</u></b></summary>
+>  
+>  - Zilean is a service that allows you to search for [DebridMediaManager](https://github.com/debridmediamanager/debrid-media-manager) sourced arr-less content.
+>  - You can integrate zilean into plex_debrid by navigating to '/Settings/Scraper/Sources/Edit/Add source/zilean'.
+>  - Details of this project can be found at https://github.com/iPromKnight/zilean
 >
 ></details>
  

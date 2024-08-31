@@ -1,5 +1,7 @@
 FROM python:3
 
+RUN apt-get update && apt-get install -y vim less
+
 ADD . / ./
 
 RUN pip install -r requirements.txt
