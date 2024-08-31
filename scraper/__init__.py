@@ -35,6 +35,7 @@ def scrape(query, altquery="(.*)"):
             if not result == [] and not result == None:
                 scraped_releases += result
         for release in scraped_releases:
+            # remove any funny characters from the release title? all ascii characters should be < 512.
             release.title = ''.join([i if ord(i) < 512 else '' for i in release.title])
         ui_print('done - found ' + str(len(scraped_releases)) + ' releases')
         if len(scraped_releases) > 0:

@@ -2,7 +2,7 @@
 from base import *
 from ui.ui_print import *
 import releases
-
+# https://github.com/TheBeastLT/torrentio-scraper/blob/master/addon/addon.js
 name = "torrentio"
 
 default_opts = "https://torrentio.strem.fun/sort=qualitysize|qualityfilter=480p,scr,cam/manifest.json"
@@ -12,6 +12,7 @@ session = custom_session()
 
 def get(url):
     try:
+        ui_print("[torrentio] get url: " + url)
         response = session.get(url, timeout=60)
         response = json.loads(
             response.content, object_hook=lambda d: SimpleNamespace(**d))
