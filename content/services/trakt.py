@@ -4,9 +4,22 @@ from base import *
 from content import classes
 from ui.ui_print import *
 
+from pydantic_settings import BaseSettings
+
+# Get Trakt oauth details from env
+class Settings(BaseSettings):
+    client_id: str
+    client_secret: str
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+
+trakt = Settings()
+
 name = 'Trakt'
-client_id = "0183a05ad97098d87287fe46da4ae286f434f32e8e951caad4cc147c947d79a3"
-client_secret = "87109ed53fe1b4d6b0239e671f36cd2f17378384fa1ae09888a32643f83b7e6c"
+client_id = trakt.client_id
+client_secret = trakt.client_secret
 lists = []
 users = []
 current_user = ["", ""]
@@ -169,9 +182,20 @@ def post(url, data):
         response = None
     return response
 
+def post2(url, data):
+    try:
+        response = session.post(url, headers={
+            'Content-type': "application/json"}, data=data)
+        logerror(response)
+        response = json.loads(response.content, object_hook=lambda d: SimpleNamespace(**d))
+        time.sleep(1.1)
+    except:
+        response = None
+    return response
+
 def oauth(code=""):
     if code == "":
-        response = post('https://api.trakt.tv/oauth/device/code', json.dumps({'client_id': client_id}))
+        response = post2('https://api.trakt.tv/oauth/device/code', json.dumps({'client_id': client_id}))
         if not response == None:
             return response.device_code, response.user_code
         else:
@@ -180,7 +204,7 @@ def oauth(code=""):
     else:
         response = None
         while response == None:
-            response = post('https://api.trakt.tv/oauth/device/token', json.dumps(
+            response = post2('https://api.trakt.tv/oauth/device/token', json.dumps(
                 {'code': code, 'client_id': client_id, 'client_secret': client_secret}))
             time.sleep(1)
         return response.access_token

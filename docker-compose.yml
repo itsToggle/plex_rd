@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    network_mode: "host"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./settings.json:/settings.json
+      - ./ignored.txt:/ignored.txt

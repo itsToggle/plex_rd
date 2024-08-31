@@ -54,8 +54,10 @@ def post(url, data):
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36','authorization': 'Bearer ' + api_key}
     response = None
     try:
+        ui_print("[realdebrid] (post): " + url + " with data " + repr(data), debug=ui_settings.debug)
         response = session.post(url, headers=headers, data=data)
         logerror(response)
+        ui_print("[realdebrid] response: " + repr(response), debug=ui_settings.debug)
         response = json.loads(response.content, object_hook=lambda d: SimpleNamespace(**d))
     except Exception as e:
         if hasattr(response,"status_code"):
@@ -145,6 +147,7 @@ def download(element, stream=True, query='', force=False):
                                 ui_print('[realdebrid] error: could not add magnet for release: ' + release.title, ui_settings.debug)
                                 continue
                             response = post('https://api.real-debrid.com/rest/1.0/torrents/selectFiles/' + torrent_id,{'files': str(','.join(cached_ids))})
+                            ui_print('[realdebrid] selectFiles response ' + repr(response), ui_settings.debug)
                             response = get('https://api.real-debrid.com/rest/1.0/torrents/info/' + torrent_id)
                             actual_title = ""
                             if len(response.links) == len(cached_ids):
@@ -171,6 +174,8 @@ def download(element, stream=True, query='', force=False):
                                 for link in release.download:
                                     try:
                                         response = post('https://api.real-debrid.com/rest/1.0/unrestrict/link',{'link': link})
+                                        ui_print("[realdebrid] unrestrict link response " + repr(response),
+                                                 ui_settings.debug)
                                     except:
                                         break
                                 release.files = version.files
@@ -190,7 +195,7 @@ def download(element, stream=True, query='', force=False):
                 except:
                     continue
         else:
-            ui_print('[realdebrid] error: rejecting release: "' + release.title + '" because it doesnt match the allowed deviation', ui_settings.debug)
+            ui_print('[realdebrid] error: rejecting release: "' + release.title + '" because it doesnt match the allowed deviation "' + query + '"', ui_settings.debug)
     return False
 
 # (required) Check Function

@@ -61,6 +61,7 @@ def scrape(query, altquery):
             base_url = base_url[:-1]
         url = base_url + '/api/v2.0/indexers/' + filter + '/results?apikey=' + api_key + '&Query=' + query
         try:
+            ui_print("[jackett] get url: " + url)
             response = session.get(url, timeout=60)
         except requests.exceptions.Timeout:
             ui_print('[jackett] error: jackett request timed out. Reduce the number of jackett indexers, make sure your indexers are healthy and enable the jackett setting "CORS".')

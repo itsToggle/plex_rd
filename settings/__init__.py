@@ -380,6 +380,7 @@ settings_list = [
         setting('Nyaa sleep time', 'Enter a time in seconds to sleep between requests (default: "5"): ',scraper.services.nyaa, 'sleep', hidden=True),
         setting('Nyaa proxy', 'Enter a proxy to use for nyaa (default: "nyaa.si"): ',scraper.services.nyaa, 'proxy', hidden=True),
         setting('Torrentio Scraper Parameters','Please enter a valid torrentio manifest url: ',scraper.services.torrentio, 'default_opts', entry="parameter", help='This settings lets you control the torrentio scraping parameters. Visit "https://torrentio.strem.fun/configure" and configure your settings. Dont choose a debrid service. The "manifest url" will be copied to your clipboard.', hidden=True),
+        setting('Zilean Base URL', 'Please specify your Zilean base URL: ', scraper.services.zilean, 'base_url', hidden=True),
     ]
         ],
     ['Debrid Services', [
@@ -412,6 +413,7 @@ settings_list = [
         setting('Show Menu on Startup', 'Please enter "true" or "false": ', ui_settings, 'run_directly'),
         setting('Debug printing', 'Please enter "true" or "false": ', ui_settings, 'debug'),
         setting('Log to file', 'Please enter "true" or "false": ', ui_settings, 'log'),
+        setting('Watchlist loop interval (sec)', 'Please enter an integer value in seconds: ', ui_settings, 'loop_interval_seconds'),
         setting('version', 'No snooping around! :D This is for compatability reasons.', ui_settings, 'version',
                 hidden=True),
     ]

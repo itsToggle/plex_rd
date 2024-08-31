@@ -403,7 +403,7 @@ def threaded(stop):
     else:
         print("Type 'exit' to return to the main menu.")
     timeout = 5
-    regular_check = 1800
+    regular_check = int(ui_settings.loop_interval_seconds)
     timeout_counter = 0
     library = content.classes.library()[0]()
     # get entire plex_watchlist

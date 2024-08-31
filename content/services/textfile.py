@@ -24,6 +24,7 @@ class library():
                 with open(library.ignore.path + "ignored.txt",'a') as f:
                     if not self.query() + '\n' in lines:
                         f.write(self.query() + '\n')
+                        ui_print("[textfile] added " + self.query() + " to ignore list")
                 f.close()
                 if not self in classes.ignore.ignored:
                     classes.ignore.ignored += [self]

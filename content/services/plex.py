@@ -30,8 +30,10 @@ def logerror(response):
 
 def get(url, timeout=60):
     try:
+        ui_print("[plex] Processing (get): " + url + " ...")
         response = session.get(url, headers=headers, timeout=timeout)
         logerror(response)
+        ui_print("done")
         response = json.loads(response.content, object_hook=lambda d: SimpleNamespace(**d))
         return response
     except Exception as e:
@@ -40,8 +42,10 @@ def get(url, timeout=60):
 
 def post(url, data):
     try:
+        ui_print("[plex] Processing (post): " + url)
         response = session.post(url, data=data, headers=headers)
         logerror(response)
+        ui_print("[plex] (post) response: " + repr(response), debug=ui_settings.debug)
         response = json.loads(response.content, object_hook=lambda d: SimpleNamespace(**d))
         return response
     except Exception as e:
@@ -128,6 +132,8 @@ class watchlist(classes.watchlist):
         elif item.type == 'movie':
             self.data.append(movie(item.ratingKey))
 
+    # collect all new unique watchlisted items ACROSS ALL USERS by retrieving user watchlists and adding them to self.data
+    # (then remove any that are no longer in the watchlist which were added in previous runs)
     def update(self):
         update = False
         new_watchlist = []
@@ -172,6 +178,7 @@ class season(classes.media):
         self.__dict__.update(other.__dict__)
         self.EID = setEID(self)
         self.Episodes = []
+        ui_print("[plex] Processing " + self.parentTitle + " " + self.title)
         token = users[0][1]
         if library.ignore.name in classes.ignore.active:
             for user in users:
@@ -529,7 +536,7 @@ class library(classes.library):
 
     class lable(classes.refresh):
 
-        name = 'Plex Lables'
+        name = 'Plex Labels'
 
         def setup(cls, new=False):
             ui_cls("Options/Settings/Library Services/Library update services")
@@ -586,7 +593,7 @@ class library(classes.library):
                     retries += 1
                 library_item = next((x for x in current_library if element == x), None)
                 if library_item == None:
-                    ui_print('[plex] error: couldnt add lables - item: "' + element.query() + '" could not be found on server.')
+                    ui_print('[plex] error: couldnt add labels - item: "' + element.query() + '" could not be found on server.')
                     return
                 tags_string = ""
                 for tag in tags:
@@ -598,7 +605,7 @@ class library(classes.library):
                 response = get(url)
                 library_item.__dict__.update(response.MediaContainer.Metadata[0].__dict__)
             except Exception as e:
-                ui_print("[plex] error: couldnt add lables! Turn on debug printing for more info.")
+                ui_print("[plex] error: couldnt add labels! Turn on debug printing for more info.")
                 ui_print(str(e), debug=ui_settings.debug)
 
         def __new__(cls, element):
@@ -632,12 +639,12 @@ class library(classes.library):
                 if len(tags) == 0:
                     return
                 element.post_tags = tags
-                ui_print('[plex] adding lables: "' + '","'.join(tags) + '" to item: "' + element.query() + '"')
+                ui_print('[plex] adding labels: "' + '","'.join(tags) + '" to item: "' + element.query() + '"')
                 results = [None]
                 t = Thread(target=multi_init, args=(library.lable.call, element, results, 0))
                 t.start()
             except Exception as e:
-                ui_print("[plex] error: couldnt add lables! Turn on debug printing for more info.")
+                ui_print("[plex] error: couldnt add labels! Turn on debug printing for more info.")
                 ui_print(str(e), debug=ui_settings.debug)
 
     class ignore(classes.ignore):
@@ -880,7 +887,8 @@ class library(classes.library):
         ui_print('done')
         current_library = copy.deepcopy(list_)
         if first_load and updated:
-            store.save(current_library,"plex","metadata")       
+            ui_print('[plex] saving library cache.')
+            store.save(current_library,"plex","metadata")
         return list_
 
 def search(query, library=[]):
